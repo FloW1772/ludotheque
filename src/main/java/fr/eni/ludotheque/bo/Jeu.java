@@ -33,7 +33,7 @@ public class Jeu {
     private Integer ageMinimum;
 
     @Column
-    private Integer dureePartie; // en minutes
+    private Integer dureePartie;
 
     // 🔹 Relation ManyToMany avec Genre
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

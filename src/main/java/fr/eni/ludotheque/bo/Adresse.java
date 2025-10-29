@@ -7,22 +7,21 @@ import lombok.*;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
-@Table(name = "ADRESSES")
+@Table(name="ADRESSES")
 public class Adresse {
-    @EqualsAndHashCode.Exclude
-    @Id
-    @GeneratedValue
-    private Integer noAdresse;
+	@Id
+	@GeneratedValue
+	@EqualsAndHashCode.Exclude
+	private Integer noAdresse;
+	
+	@Column(length = 100, nullable = false)
+	@NonNull private String rue;
+	
+	@Column(length = 5, nullable = false)
+	@NonNull private String codePostal;
+	
+	@Column(length = 100, nullable = false)
+	@NonNull private String ville;
 
-    @NonNull
-    @Column(nullable = false, length = 255)
-    private String rue;
 
-    @NonNull
-    @Column(nullable = false, length = 10)
-    private String codePostal;
-
-    @NonNull
-    @Column(nullable = false, length = 100)
-    private String ville;
 }

@@ -2,45 +2,48 @@ package fr.eni.ludotheque.bo;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.HashSet;
-import java.util.Set;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
-@Table(name = "JEUX")
+@Table(name="JEUX")
 public class Jeu {
+	@Id
+	@GeneratedValue()
+	@Column(name="no_jeu")
+	@EqualsAndHashCode.Exclude
+	private Integer noJeu;
+	
+	@Column( length=50, nullable=false)
+	@NonNull
+	private String titre;
+	
+	@Column(length=13, nullable=false, unique=true)
+	@NonNull private String reference;
+	
+	@Column(nullable=true)
+	private int ageMin;
+	
+	@Column( nullable=true)
+	private String description;
 
-    @EqualsAndHashCode.Exclude
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer noJeu;
-
-    @NonNull
-    @Column(nullable = false, length = 100)
-    private String nom;
-
-    @NonNull
-    @Column(nullable = false)
-    private String editeur;
-
-    @NonNull
-    @Column(nullable = false)
-    private String categorie;
-
-    @Column
-    private Integer ageMinimum;
-
-    @Column
-    private Integer dureePartie;
-
-    // 🔹 Relation ManyToMany avec Genre
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "JEUX_GENRES",
-            joinColumns = @JoinColumn(name = "noJeu"),
-            inverseJoinColumns = @JoinColumn(name = "noGenre")
-    )
-    private Set<Genre> genres = new HashSet<>();
+	private int duree;
+	
+	@Column(nullable=false)
+	@NonNull
+	private Float tarifJour;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "JEUX_GENRES", 
+		joinColumns = @JoinColumn(name="no_jeu"),
+		inverseJoinColumns = @JoinColumn(name="no_genre"))
+	private List<Genre> genres = new ArrayList<>();
+	
+	public void addGenre(Genre g) {
+		genres.add(g);
+	}
 }

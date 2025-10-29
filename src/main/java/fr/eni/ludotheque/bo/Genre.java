@@ -1,21 +1,21 @@
 package fr.eni.ludotheque.bo;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
-@Table(name = "GENRES")
+@Table(name="GENRES")
 public class Genre {
-
-    @EqualsAndHashCode.Exclude
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer noGenre;
-
-    @NonNull
-    @Column(nullable = false, length = 50, unique = true)
-    private String nom;
+	@Id
+	@NonNull private Integer noGenre;
+	@NonNull private String libelle;
+	
 }

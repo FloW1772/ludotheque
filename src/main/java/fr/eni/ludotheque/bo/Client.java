@@ -1,35 +1,37 @@
 package fr.eni.ludotheque.bo;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
-@Table(name = "CLIENTS")
+@Table(name="CLIENTS")
 public class Client {
-    @EqualsAndHashCode.Exclude
-    @Id
-    @GeneratedValue
-    private Integer noClient;
+	@Id
+	@GeneratedValue()
+	private Integer noClient;
+	
+	@Column(length = 50, nullable = false)
+	@NonNull private String nom;
+	
+	@Column(length = 50, nullable = false)
+	@NonNull private String prenom;
+	
+	@Column(length = 50, nullable = false, unique = true)
+	@NonNull private String email;
+	
+	@Column(length = 15, nullable = false)
+	private String noTelephone;
 
-    @Column(nullable = false, length = 100)
-    @NonNull
-    private String nom;
-
-    @Column(nullable = false, length = 100)
-    @NonNull
-    private String prenom;
-
-    @Column(nullable = false, length = 100, unique = true)
-    @NonNull
-    private String email;
-
-    @Column(length = 15)
-    private String noTelephone;
-
-    @OneToOne(cascade = CascadeType.ALL) // Sauvegarde automatique de l’adresse
-    @JoinColumn(name = "no_adresse")     // Clé étrangère en table CLIENTS
-    private Adresse adresse;
+	@NonNull
+	@OneToOne(cascade = CascadeType.ALL,
+			orphanRemoval = true, optional = false,
+			fetch = FetchType.EAGER)
+	@JoinColumn(name = "no_adresse")
+	private Adresse adresse;
 }

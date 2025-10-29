@@ -29,6 +29,7 @@ public class Client {
     @Column(length = 15)
     private String noTelephone;
 
-   // @NonNull
-    //private String adresse;
+    @OneToOne(cascade = CascadeType.ALL) // Sauvegarde automatique de l’adresse
+    @JoinColumn(name = "no_adresse")     // Clé étrangère en table CLIENTS
+    private Adresse adresse;
 }

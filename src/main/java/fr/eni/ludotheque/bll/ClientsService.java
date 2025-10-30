@@ -11,5 +11,5 @@ public interface ClientsService {
 
     List<Client> rechercherClientsParNomCommencePar(String prefixe);
 
-    Client modifierClient(int idClient, ClientDto clientDto); // ✅ méthode de modification complète
+    Client modifierClient(int idClient, ClientDto clientDto); // méthode de modification complète
 }

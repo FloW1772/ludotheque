@@ -14,4 +14,6 @@ public interface ClientsService {
     Client modifierClient(int idClient, ClientDto clientDto); // méthode de modification complète
 
     Client modifierAdresseClient(int idClient, ClientDto clientDto); // méthode pour modifier uniquement l'adresse
+
+    void supprimerClient(int idClient); // <-- ajouté
 }

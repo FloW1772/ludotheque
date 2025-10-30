@@ -51,13 +51,11 @@ public class ClientsServiceImpl implements ClientsService {
 
         Client client = optClient.get();
 
-        // Mise à jour des champs du client
         client.setNom(clientDto.nom());
         client.setPrenom(clientDto.prenom());
         client.setEmail(clientDto.email());
         client.setNoTelephone(clientDto.noTelephone());
 
-        // Mise à jour ou création de l’adresse
         Adresse adresse = client.getAdresse();
         if (adresse == null) {
             adresse = new Adresse();
@@ -86,7 +84,6 @@ public class ClientsServiceImpl implements ClientsService {
             adresse = new Adresse();
         }
 
-        // On ne modifie que les champs d’adresse
         adresse.setRue(clientDto.rue());
         adresse.setCodePostal(clientDto.codePostal());
         adresse.setVille(clientDto.ville());
@@ -94,5 +91,13 @@ public class ClientsServiceImpl implements ClientsService {
         client.setAdresse(adresse);
 
         return clientRepository.save(client);
+    }
+
+    @Override
+    public void supprimerClient(int idClient) {
+        if (!clientRepository.existsById(idClient)) {
+            throw new IllegalArgumentException("Client non trouvé avec l'id : " + idClient);
+        }
+        clientRepository.deleteById(idClient);
     }
 }

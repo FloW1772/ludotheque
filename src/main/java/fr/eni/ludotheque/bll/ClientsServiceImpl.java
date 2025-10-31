@@ -94,6 +94,13 @@ public class ClientsServiceImpl implements ClientsService {
     }
 
     @Override
+    public Client trouverClientParId(int idClient) {
+        return clientRepository.findById(idClient)
+                .orElseThrow(() -> new IllegalArgumentException("Client non trouvé avec l'id : " + idClient));
+    }
+
+
+    @Override
     public void supprimerClient(int idClient) {
         if (!clientRepository.existsById(idClient)) {
             throw new IllegalArgumentException("Client non trouvé avec l'id : " + idClient);

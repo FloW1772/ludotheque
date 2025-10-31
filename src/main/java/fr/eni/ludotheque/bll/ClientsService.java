@@ -9,6 +9,8 @@ public interface ClientsService {
 
     Client ajouterClient(ClientDto clientDto);
 
+    Client trouverClientParId(int idClient);
+
     List<Client> rechercherClientsParNomCommencePar(String prefixe);
 
     Client modifierClient(int idClient, ClientDto clientDto); // méthode de modification complète

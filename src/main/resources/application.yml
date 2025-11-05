@@ -10,4 +10,3 @@ spring:
     username: postgres
     password: Pa$$word
 
-

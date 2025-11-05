@@ -10,7 +10,7 @@ import lombok.*;
 @Table(name="ADRESSES")
 public class Adresse {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@EqualsAndHashCode.Exclude
 	private Integer noAdresse;
 	

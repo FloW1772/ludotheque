@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LocationDTO {
-    private Integer noClient;
-    private String codebarre;
+public class RetourLocationsDTO {
+    private List<String> codebarres=new ArrayList<String>();
 
 }

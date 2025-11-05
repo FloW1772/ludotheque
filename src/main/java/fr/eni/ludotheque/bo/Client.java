@@ -1,10 +1,16 @@
 package fr.eni.ludotheque.bo;
 
-import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
@@ -13,7 +19,8 @@ import lombok.RequiredArgsConstructor;
 @Table(name="CLIENTS")
 public class Client {
 	@Id
-	@GeneratedValue()
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@EqualsAndHashCode.Exclude
 	private Integer noClient;
 	
 	@Column(length = 50, nullable = false)

@@ -1,18 +1,17 @@
 package fr.eni.ludotheque.bo;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
+@Table(name="EXEMPLAIRES")
 public class Exemplaire {
 	@Id
-	@GeneratedValue()
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@EqualsAndHashCode.Exclude
 	private Integer noExemplaire;
 	
 	@Column(length=13, nullable = false, unique = true)
@@ -21,7 +20,7 @@ public class Exemplaire {
 	@Basic(optional = false)
 	private boolean louable=true;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="no_jeu", referencedColumnName = "no_jeu")
 	@NonNull
 	private Jeu jeu;

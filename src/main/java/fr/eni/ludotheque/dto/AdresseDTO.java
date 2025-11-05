@@ -4,13 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LocationDTO {
-    private Integer noClient;
-    private String codebarre;
-
+public class AdresseDTO {
+    private String rue;
+    private String codePostal;
+    private String ville;
 }

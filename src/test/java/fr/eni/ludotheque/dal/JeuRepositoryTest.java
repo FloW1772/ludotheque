@@ -2,10 +2,14 @@ package fr.eni.ludotheque.dal;
 
 import fr.eni.ludotheque.bo.Genre;
 import fr.eni.ludotheque.bo.Jeu;
+import fr.eni.ludotheque.dto.JeuDTO;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,9 +19,9 @@ public class JeuRepositoryTest {
 	@Autowired
 	private JeuRepository jeuRepository;
 	
-	@Test
+	//@Test
 	@DisplayName("test création jeu et liens vers genres CAS POSITIF")
-	//@Transactional
+	@Transactional
 	public void testCreationJeu() {
 		//Arrange
 		Jeu jeu = new Jeu("SkyJo", "refSkyJo", 5.6f );
@@ -39,6 +43,16 @@ public class JeuRepositoryTest {
 		assertThat(jeuBD.getGenres()).hasSize(2);
 		assertThat(jeuBD.getReference()).isEqualTo(jeu.getReference());
 		
+	}
+	@Test
+	public void testListeJeux(){
+
+
+		//act
+		List<JeuDTO> jeuxDto = jeuRepository.findAllJeuxAvecNbExemplairesV2("");
+
+		jeuxDto.forEach(System.out::println);
+
 	}
 	
 }

@@ -45,5 +45,21 @@ public class ExemplaireRepositoryTest {
 		assertThat(exemplaireFromBD.getJeu()).isEqualTo(skyJoBoite1.getJeu());
 
 	}
-	
-}
+
+	@Test
+	@DisplayName("test de la méthode findByCodebarre cas positif")
+	@Transactional
+	public void testFindByCodebarre() {
+
+		//act
+		Exemplaire exemplaire = exemplaireRepository.findByCodebarre("1111111111111");
+
+		//Assert
+		assertThat(exemplaire).isNotNull();
+		assertThat(exemplaire.getCodebarre()).isEqualTo("1111111111111");
+		assertThat(exemplaire.isLouable()).isTrue();
+		assertThat(exemplaire.getJeu()).isNotNull();
+		assertThat(exemplaire.getJeu().getReference()).isEqualTo("refPandemic");
+	}
+
+	}

@@ -6,15 +6,14 @@ import fr.eni.ludotheque.bo.Jeu;
 import java.util.List;
 
 public interface JeuService {
-	
-	void ajouterJeu(Jeu jeu);
-	
-	Jeu trouverJeuParNoJeu(Integer noJeu);
-	
-	List<Jeu> listeJeuxCatalogue(String filtreTitre);
 
-	List<Jeu> listeJeuxCatalogueV2(String filtreTitre);
+    void ajouterJeu(Jeu jeu);
 
-	Exemplaire trouverExemplaireByCodebarre(String codebarre);
-		
+    Jeu trouverJeuParNoJeu(String jeuId);
+
+    List<Jeu> listeJeuxCatalogue(String filtreTitre);
+
+    List<Jeu> listeJeuxCatalogueV2(String filtreTitre);
+
+    Exemplaire trouverExemplaireByCodebarre(String codebarre);
 }

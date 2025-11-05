@@ -1,44 +1,20 @@
 package fr.eni.ludotheque.bo;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @NoArgsConstructor
-@RequiredArgsConstructor
-@Entity
-@Table(name="CLIENTS")
+@AllArgsConstructor
+@Document(collection = "clients")
 public class Client {
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@EqualsAndHashCode.Exclude
-	private Integer noClient;
-	
-	@Column(length = 50, nullable = false)
-	@NonNull private String nom;
-	
-	@Column(length = 50, nullable = false)
-	@NonNull private String prenom;
-	
-	@Column(length = 50, nullable = false, unique = true)
-	@NonNull private String email;
-	
-	@Column(length = 15, nullable = false)
-	private String noTelephone;
+    @Id
+    private String id;
 
-	@NonNull
-	@OneToOne(cascade = CascadeType.ALL,
-			orphanRemoval = true, optional = false,
-			fetch = FetchType.EAGER)
-	@JoinColumn(name = "no_adresse")
-	private Adresse adresse;
+    private String nom;
+    private String prenom;
+    private String email;
+    private String noTelephone;
+    private Adresse adresse;
 }

@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LocationDTO {
-    private Integer noClient;
+    private String noClient;
     private String codebarre;
 
 }

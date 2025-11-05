@@ -1,7 +1,8 @@
 package fr.eni.ludotheque.bo;
 
-import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
@@ -9,30 +10,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity
-@Table(name = "LOCATIONS")
+@Document(collection = "locations")
 public class Location {
-	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE)
-	private Integer noLocation;
+    @Id
+    private String id;
 
-	@EqualsAndHashCode.Include
-	@Basic(optional = false)
-	@NonNull private LocalDateTime dateDebut;
-	@Basic(optional = true)
-	private LocalDateTime dateRetour;
-	@Basic(optional = false)
-	private float tarifJour;
+    @NonNull private LocalDateTime dateDebut;
+    private LocalDateTime dateRetour;
+    private float tarifJour;
 
-	@EqualsAndHashCode.Include
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name="no_client")
-	@NonNull private Client client;
-
-	@EqualsAndHashCode.Include
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name="no_exemplaire")
-	@NonNull private Exemplaire exemplaire;
-	
-
+    @NonNull private Client client;
+    @NonNull private Exemplaire exemplaire;
 }

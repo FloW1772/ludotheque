@@ -1,11 +1,11 @@
 package fr.eni.ludotheque.dal;
 
 import fr.eni.ludotheque.bo.Client;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
-public interface ClientRepository extends JpaRepository<Client, Integer>{
-	List<Client> findByNomStartsWith(String nom);
-	Client findByNoTelephone(String telephone);
+public interface ClientRepository extends MongoRepository<Client, String> {
+    List<Client> findByNomStartsWith(String nom);
+    Client findByNoTelephone(String noTelephone);
 }

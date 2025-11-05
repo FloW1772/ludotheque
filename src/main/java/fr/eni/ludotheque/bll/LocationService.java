@@ -7,12 +7,12 @@ import fr.eni.ludotheque.dto.LocationDTO;
 import java.util.List;
 
 public interface LocationService {
-	
-	Location ajouterLocation(LocationDTO locationDto);
-	
-	Facture retourExemplaires( List<String> codebarres);
 
-	Facture payerFacture( Integer noFacture);
+    Location ajouterLocation(LocationDTO locationDto);
 
-	void trouverLocationParExemplaireCodebarre(String codebarre);
+    Facture retourExemplaires(List<String> codebarres);
+
+    Facture payerFacture(String factureId);
+
+    Location trouverLocationParExemplaireCodebarre(String codebarre);
 }

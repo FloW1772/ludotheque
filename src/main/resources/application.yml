@@ -1,12 +1,14 @@
 spring:
   application:
     name: ludotheque
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: create
-  datasource:
-    url: jdbc:postgresql://localhost/LUDO_DB
-    username: postgres
-    password: Pa$$word
 
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/ludotheque
+      database: ludotheque
+
+  # Active le log des requêtes Mongo dans la console (utile pour le debug)
+  mongodb:
+    logging:
+      level:
+        org.springframework.data.mongodb.core.MongoTemplate: DEBUG

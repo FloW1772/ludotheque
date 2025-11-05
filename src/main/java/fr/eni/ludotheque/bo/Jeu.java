@@ -1,7 +1,8 @@
 package fr.eni.ludotheque.bo;
 
-import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,44 +11,20 @@ import java.util.List;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity
-@Table(name="JEUX")
+@Document(collection = "jeux")
 public class Jeu {
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Column(name="no_jeu")
-	private Integer noJeu;
-	
-	@Column( length=50, nullable=false)
-	@NonNull
-	private String titre;
+    @Id
+    private String id;
 
-	@EqualsAndHashCode.Include
-	@Column(length=13, nullable=false, unique=true)
-	@NonNull private String reference;
-	
-	@Column(nullable=true)
-	private int ageMin;
-	
-	@Column( nullable=true)
-	private String description;
+    @EqualsAndHashCode.Include
+    @NonNull private String reference;
 
-	private int duree;
-	
-	@Column(nullable=false)
-	@NonNull
-	private Float tarifJour;
+    @NonNull private String titre;
+    private int ageMin;
+    private String description;
+    private int duree;
+    @NonNull private Float tarifJour;
 
-	@Transient
-	private Integer nbExemplairesDisponibles;
-	
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "JEUX_GENRES", 
-		joinColumns = @JoinColumn(name="no_jeu"),
-		inverseJoinColumns = @JoinColumn(name="no_genre"))
-	private List<Genre> genres = new ArrayList<>();
-	
-	public void addGenre(Genre g) {
-		genres.add(g);
-	}
+    private List<Genre> genres = new ArrayList<>();
+    private Integer nbExemplairesDisponibles;
 }

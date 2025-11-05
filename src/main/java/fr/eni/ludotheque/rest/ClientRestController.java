@@ -24,86 +24,77 @@ public class ClientRestController {
         this.clientService = clientService;
     }
 
-
-    @GetMapping("/{noClient}")
-    //@RequestMapping(method = {RequestMethod.GET, RequestMethod.DELETE}, "/{noClient}")
-    public ResponseEntity<ApiResponse<Client>> findClientById(@PathVariable(name = "noClient") Integer noClient) {
-        Client client = null;
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<Client>> findClientById(@PathVariable String id) {
+        Client client;
         try {
-            client = clientService.trouverClientParId(noClient);
+            client = clientService.trouverClientParId(id);
         } catch (DataNotFound notFound) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(false, "Client : " + noClient + " non trouvé", null));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiResponse(false, "Client : " + id + " non trouvé", null));
         }
         return ResponseEntity.ok(new ApiResponse(true, "ok", client));
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Client>> ajouterClient(@Valid @RequestBody ClientDTO client,
+    public ResponseEntity<ApiResponse<Client>> ajouterClient(@Valid @RequestBody ClientDTO clientDto,
                                                              BindingResult result) {
-
         if (result.hasErrors()) {
-            String errors = result.getFieldErrors()
-                    .stream()
-                    .map(f -> f.getField() + " : " +
-                            f.getDefaultMessage()).collect(Collectors.joining(", "));
-
+            String errors = result.getFieldErrors().stream()
+                    .map(f -> f.getField() + " : " + f.getDefaultMessage())
+                    .collect(Collectors.joining(", "));
             return ResponseEntity.badRequest().body(new ApiResponse(false, errors, null));
         }
-        Client nouveauClient = null;
         try {
-            nouveauClient = clientService.ajouterClient(client);
+            Client nouveauClient = clientService.ajouterClient(clientDto);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(new ApiResponse(true, "ok", nouveauClient));
         } catch (EmailClientAlreadyExistException e) {
-            ApiResponse<Client> apiResponse = new ApiResponse(false, "erreur de validation: email existe déjà.", null);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiResponse(false, "Email existe déjà", null));
         }
-        ApiResponse<Client> apiResponse = new ApiResponse(true, "ok", nouveauClient);
-        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
-
     }
 
-
-    @GetMapping()
-    public ResponseEntity<ApiResponse<List<Client>>> findClientsByNomCommencePar(@RequestParam(required = false, defaultValue = "") String filtreNom) {
-        List<Client> clientList = clientService.trouverClientsParNom(filtreNom);
-        String message = clientList.size() > 0 ? "ok" : "aucun client trouvé";
-
-        return ResponseEntity.ok(new ApiResponse(true, message, clientList));
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<Client>>> findClientsByNomCommencePar(
+            @RequestParam(required = false, defaultValue = "") String filtreNom) {
+        List<Client> clients = clientService.trouverClientsParNom(filtreNom);
+        String message = clients.isEmpty() ? "aucun client trouvé" : "ok";
+        return ResponseEntity.ok(new ApiResponse(true, message, clients));
     }
 
-    /* Modification complète d'un client */
-    @PutMapping("/{noClient}")
-    public ResponseEntity<ApiResponse<Client>> modifierClient(@PathVariable(name = "noClient") Integer noClient, @RequestBody ClientDTO clientDto) {
-        Client client = null;
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<Client>> modifierClient(@PathVariable String id,
+                                                              @RequestBody ClientDTO clientDto) {
         try {
-            client = clientService.modifierClient(noClient, clientDto);
-        } catch (DataNotFound notFound) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(false, "Client : " + noClient + " non trouvé", null));
+            Client client = clientService.modifierClient(id, clientDto);
+            return ResponseEntity.ok(new ApiResponse(true, "ok", client));
+        } catch (DataNotFound e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse(false, "Client : " + id + " non trouvé", null));
         }
-
-        ApiResponse<Client> apiResponse = new ApiResponse(true, "ok", client);
-        return ResponseEntity.ok(apiResponse);
     }
 
-
-    /* Modification de l'adresse d'un client */
-    @PatchMapping("/{noClient}/adresse")
-    public ResponseEntity<ApiResponse<Client>> modifierAdresse(@PathVariable(name = "noClient") Integer noClient, @RequestBody AdresseDTO adresseDto) {
-        Client client = clientService.modifierAdresse(noClient, adresseDto);
-        ApiResponse<Client> apiResponse = new ApiResponse(true, "ok", client);
-        return ResponseEntity.ok(apiResponse);
-    }
-
-
-    @DeleteMapping("/{noClient}")
-    public ResponseEntity<ApiResponse<?>> supprimerClient(@PathVariable(name = "noClient") int noClient) {
+    @PatchMapping("/{id}/adresse")
+    public ResponseEntity<ApiResponse<Client>> modifierAdresse(@PathVariable String id,
+                                                               @RequestBody AdresseDTO adresseDto) {
         try {
-            clientService.supprimerClient(noClient);
-        } catch (DataNotFound notFound) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(false, "Client : " + noClient + " non trouvé", null));
+            Client client = clientService.modifierAdresse(id, adresseDto);
+            return ResponseEntity.ok(new ApiResponse(true, "ok", client));
+        } catch (DataNotFound e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse(false, "Client : " + id + " non trouvé", null));
         }
+    }
 
-        ApiResponse<Client> apiResponse = new ApiResponse(true, "ok", null);
-
-        return ResponseEntity.ok(null);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<?>> supprimerClient(@PathVariable String id) {
+        try {
+            clientService.supprimerClient(id);
+            return ResponseEntity.ok(new ApiResponse(true, "ok", null));
+        } catch (DataNotFound e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse(false, "Client : " + id + " non trouvé", null));
+        }
     }
 }

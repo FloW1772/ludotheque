@@ -8,15 +8,15 @@ import java.util.List;
 
 public interface ClientService {
 
-	public Client ajouterClient(ClientDTO clientDto);
+    Client ajouterClient(ClientDTO clientDto);
 
-	public List<Client> trouverClientsParNom(String nom);
+    List<Client> trouverClientsParNom(String nom);
 
-	public Client modifierClient(Integer noClient, ClientDTO clientDto);
+    Client modifierClient(String clientId, ClientDTO clientDto);
 
-	public Client trouverClientParId(Integer id);
+    Client trouverClientParId(String clientId);
 
-	public Client modifierAdresse(Integer noClient, AdresseDTO adresseDto) ;
+    Client modifierAdresse(String clientId, AdresseDTO adresseDto);
 
-	void supprimerClient(int noClient);
+    void supprimerClient(String clientId);
 }
